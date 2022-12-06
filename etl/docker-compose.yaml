@@ -4,11 +4,13 @@ x-airflow-common:
   &airflow-common
   image: apache/airflow:2.5.0
   environment:
-    - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+    - AIRFLOW__CORE__EXECUTOR=CeleryExecutor
     - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://postgres:postgres@postgres:5432/airflow
     - AIRFLOW__CORE__FERNET_KEY=FB0o_zt4e3Ziq3LdUUO7F2Z95cvFFx16hU8jTeR1ASM=
     - AIRFLOW__CORE__LOAD_EXAMPLES=False
     - AIRFLOW__CORE__LOGGING_LEVEL=INFO
+    - AIRFLOW__CELERY__BROKER_URL=redis://:@redis:6379/0
+
   volumes:
     - ./dags:/opt/airflow/dags
     - ./airflow-data/logs:/opt/airflow/logs
@@ -64,8 +66,31 @@ services:
   
   airflow-worker:
     << : *airflow-common
-    command: airflow worker
+    command: celery worker
     container_name: airflow_worker
     restart: always
     depends_on:
       - postgres
+
+  flower:
+    <<: *airflow-common
+    command: celery flower
+    ports:
+      - 5555:5555
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:5555/"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    restart: always
+  
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 30s
+      retries: 50
+    restart: always
