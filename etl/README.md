@@ -39,13 +39,13 @@ After all this process was possible to develop a solution that can run automatic
 
 - Data source in a bad format, if the data was provided in xlsx the code would be much simpler;
 - There are too many options to install libreoffice, get the right packages to make de conversion possible took some time;
-- Pyarrow is not capable to save more than 1024 from a single dataset, was necessary to use fastparquet as pandas backend for parquet
+- Pyarrow is not capable to save more than 1024 files from a single dataset, was necessary to use fastparquet as pandas backend for parquet;
 - Airflow problems when serializing data between workers. There is a bug when using airflow with python 3.7 and 3.8, some data is pickled into the database, and mismatch of versions may cause the scheduler to die.
 
 ## Improvements
 
-- Extract data from xls metadata. This solution looks more robust but is necessary to investigate better.
-- Use spark instead of pandas. Spark is more scalable and when using a bigger data source pandas may not handle it.
+- Extract data from xls metadata. This solution looks more robust but is necessary to investigate better;
+- Use spark instead of pandas. Spark is more scalable and when using a bigger data source pandas may not handle it;
 - Make use of some merge strategy instead of rewriting the whole data for each new run.
 
 
