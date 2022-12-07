@@ -71,6 +71,11 @@ services:
     restart: always
     depends_on:
       - postgres
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./data:/home/airflow/data
+      - ./airflow-data/logs:/opt/airflow/logs
+
 
   flower:
     <<: *airflow-common
@@ -94,3 +99,19 @@ services:
       timeout: 30s
       retries: 50
     restart: always
+
+  libreoffice-worker:
+    << : *airflow-common
+    image: libreoffice_converter
+    build:
+      context: ./libreoffice
+      dockerfile: ./Dockerfile
+    command: airflow celery worker -q libreoffice
+    container_name: libreoffice
+    restart: always
+    depends_on:
+      - postgres
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./data:/home/airflow/data
+      - ./airflow-data/logs:/opt/airflow/logs
