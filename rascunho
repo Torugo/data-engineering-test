@@ -1,0 +1,22 @@
+# services:
+# #   # ubuntu:
+# #   #   container_name: 'xls_converter'
+# #   #   image: flask_converter
+# #   #   build: 
+# #   #     context: ./xls_converter
+# #   #     dockerfile: Dockerfile
+# #   #   volumes: 
+# #   #     - ./:/app
+# #   #     - ./tmp:/tmp
+# #   #   ports:
+# #   #     - 5000:5000
+    
+#   libreoffice:
+#     restart: always
+#     container_name: 'libreoffice_service'
+#     image: libreoffice
+#     build: 
+#       context:  ./libreoffice
+#       dockerfile: libreoffice.Dockerfile
+#     ports:
+#       - 8100:8100

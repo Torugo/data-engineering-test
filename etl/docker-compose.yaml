@@ -31,6 +31,7 @@ services:
       - "5432:5432"
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
+      - ./airflow-data/airflow.cfg:/opt/airlfow/airflow.cfg
 
   airflow-init:
     << : *airflow-common
@@ -75,6 +76,7 @@ services:
       - ./dags:/opt/airflow/dags
       - ./data:/home/airflow/data
       - ./airflow-data/logs:/opt/airflow/logs
+      - ./airflow-data/airflow.cfg:/opt/airlfow/airflow.cfg
 
 
   flower:
@@ -112,6 +114,8 @@ services:
     depends_on:
       - postgres
     volumes:
-      - ./dags:/opt/airflow/dags
-      - ./data:/home/airflow/data
-      - ./airflow-data/logs:/opt/airflow/logs
+      - ./dags:/root/airflow/dags
+      - ./data:/root/airflow/data
+      - ./airflow-data/logs:/root/airflow/logs
+      - ./airflow-data/airflow.cfg:/opt/airlfow/airflow.cfg
+
