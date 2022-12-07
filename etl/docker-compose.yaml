@@ -65,18 +65,18 @@ services:
     container_name: airflow_scheduler
     restart: always
   
-  airflow-worker:
-    << : *airflow-common
-    command: celery worker
-    container_name: airflow_worker
-    restart: always
-    depends_on:
-      - postgres
-    volumes:
-      - ./dags:/opt/airflow/dags
-      - ./data:/home/airflow/data
-      - ./airflow-data/logs:/opt/airflow/logs
-      - ./airflow-data/airflow.cfg:/opt/airlfow/airflow.cfg
+  # airflow-worker:
+  #   << : *airflow-common
+  #   command: celery worker
+  #   container_name: airflow_worker
+  #   restart: always
+  #   depends_on:
+  #     - postgres
+  #   volumes:
+  #     - ./dags:/opt/airflow/dags
+  #     - ./data:/home/airflow/data
+  #     - ./airflow-data/logs:/opt/airflow/logs
+  #     - ./airflow-data/airflow.cfg:/opt/airlfow/airflow.cfg
 
 
   flower:
@@ -108,7 +108,7 @@ services:
     build:
       context: ./libreoffice
       dockerfile: ./Dockerfile
-    command: airflow celery worker -q libreoffice
+    command: airflow celery worker
     container_name: libreoffice
     restart: always
     depends_on:
