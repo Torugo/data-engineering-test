@@ -114,8 +114,8 @@ services:
     depends_on:
       - postgres
     volumes:
-      - ./dags:/root/airflow/dags
-      - ./data:/root/airflow/data
-      - ./airflow-data/logs:/root/airflow/logs
+      - ./dags:/root/airflow/dags/
+      - ./data:/root/airflow/data/
+      - ./airflow-data/logs:/root/airflow/logs/
       - ./airflow-data/airflow.cfg:/opt/airlfow/airflow.cfg
 
